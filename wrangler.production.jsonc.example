@@ -1,0 +1,42 @@
+{
+  "$schema": "./server/node_modules/wrangler/config-schema.json",
+  "name": "ternssh",
+  "main": "server/src/index.ts",
+  "account_id": "__CLOUDFLARE_ACCOUNT_ID__",
+  "compatibility_date": "2026-01-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "keep_vars": true,
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  // Do not put vars/secrets here — set them in the Cloudflare dashboard so deploys do not overwrite them.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ternssh",
+      "database_id": "__D1_DATABASE_ID__",
+      "migrations_dir": "server/migrations"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "SSH_SESSION",
+        "class_name": "SshSession"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["SshSession"]
+    }
+  ],
+  "assets": {
+    "directory": "./server/public",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": true
+  }
+}
