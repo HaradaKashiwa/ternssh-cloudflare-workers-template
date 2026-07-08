@@ -1,0 +1,25 @@
+{
+  "name": "ternssh-server",
+  "version": "0.1.0",
+  "private": true,
+  "license": "GPL-3.0-or-later",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --config ../wrangler.jsonc --ip 0.0.0.0",
+    "build:web": "npm run build --prefix ../web",
+    "deploy": "npm run build:web && wrangler deploy --config ../wrangler.jsonc",
+    "types": "wrangler types --config ../wrangler.jsonc",
+    "db:migrate:local": "wrangler d1 migrations apply ternssh --local --config ../wrangler.jsonc",
+    "db:migrate": "wrangler d1 migrations apply ternssh --remote --config ../wrangler.jsonc"
+  },
+  "dependencies": {
+    "hono": "^4.11.3",
+    "jose": "^6.0.11"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250704.0",
+    "@types/node": "^24.0.14",
+    "typescript": "^5.9.2",
+    "wrangler": "^4.24.3"
+  }
+}
