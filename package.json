@@ -1,0 +1,24 @@
+{
+  "name": "ternssh-cloudflare-workers-template",
+  "private": true,
+  "license": "GPL-3.0-or-later",
+  "scripts": {
+    "postinstall": "npm install --prefix server",
+    "build": "node -e \"console.log('Using prebuilt ternssh artifacts')\"",
+    "deploy": "node scripts/generate-production-config.mjs --require && wrangler d1 migrations apply ternssh --remote --config wrangler.production.jsonc && wrangler deploy --config wrangler.production.jsonc",
+    "db:migrate": "node scripts/generate-production-config.mjs --require && wrangler d1 migrations apply ternssh --remote --config wrangler.production.jsonc"
+  },
+  "cloudflare": {
+    "bindings": {
+      "ACCESS_TEAM_DOMAIN": {
+        "description": "Cloudflare Access team domain (e.g. your-team.cloudflareaccess.com). With ACCESS_AUD, enables JWT verification."
+      },
+      "ACCESS_AUD": {
+        "description": "Application Audience (AUD) tag from your Access app. With ACCESS_TEAM_DOMAIN, enables JWT verification."
+      }
+    }
+  },
+  "devDependencies": {
+    "wrangler": "^4.24.3"
+  }
+}
