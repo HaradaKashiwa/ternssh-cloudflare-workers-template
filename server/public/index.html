@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicon-light.png"
+      media="(prefers-color-scheme: light)"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicon-dark.png"
+      media="(prefers-color-scheme: dark)"
+    />
+    <link rel="icon" type="image/png" href="/favicon-light.png" id="app-favicon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <title>ternssh</title>
+    <script>
+      (function () {
+        var storedLocale = localStorage.getItem("ternssh-locale");
+        var locale =
+          storedLocale === "zh" || storedLocale === "en" ? storedLocale : null;
+        if (!locale) {
+          var langs =
+            navigator.languages && navigator.languages.length
+              ? navigator.languages
+              : [navigator.language];
+          locale = "en";
+          for (var i = 0; i < langs.length; i++) {
+            var tag = String(langs[i]).toLowerCase();
+            if (tag.indexOf("zh") === 0) {
+              locale = "zh";
+              break;
+            }
+            if (tag.indexOf("en") === 0) {
+              locale = "en";
+              break;
+            }
+          }
+        }
+        document.documentElement.lang = locale === "zh" ? "zh-CN" : "en";
+
+        var stored = localStorage.getItem("ternssh-theme");
+        var mode =
+          stored === "light" || stored === "dark" || stored === "system"
+            ? stored
+            : "system";
+        var resolved =
+          mode === "system"
+            ? window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light"
+            : mode;
+        document.documentElement.dataset.theme = resolved;
+        document.documentElement.style.colorScheme = resolved;
+
+        var favicon = document.getElementById("app-favicon");
+        if (favicon) {
+          favicon.setAttribute(
+            "href",
+            resolved === "dark" ? "/favicon-dark.png" : "/favicon-light.png",
+          );
+        }
+
+        var opacity = localStorage.getItem("ternssh-widget-opacity");
+        if (opacity) {
+          var parsed = parseInt(opacity, 10);
+          if (!isNaN(parsed) && parsed >= 30 && parsed <= 100) {
+            document.documentElement.style.setProperty(
+              "--widget-opacity",
+              String(parsed / 100),
+            );
+          }
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-r1UfuuTQ.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-C3zJQC0c.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
